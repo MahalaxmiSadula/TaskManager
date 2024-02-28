@@ -13,6 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Table(name = "tasks")
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
