@@ -24,10 +24,18 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserService userService;
+    private static final String[] AUTH_WHITELIST = {
+            "/swagger-resources/**",
+            "/api/v1/auth/**",
+            "api-docs/**",
+            "api-docs.yaml",
+            "/swagger-ui/**",
+            "/swagger-ui.html"
+    };
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request -> request.requestMatchers("/api/v1/auth/**")
+                .authorizeHttpRequests(request -> request.requestMatchers(AUTH_WHITELIST)
                         .permitAll().anyRequest().authenticated())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
